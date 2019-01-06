@@ -97,7 +97,6 @@ $(document).ready(function() {
       for (var i=0;i<10;i++){
         $(("#button-"+i)).on("click", function() { 
           firstval=firstval+$(this).attr("value");
-          console.log("test1 "+firstval);
           $("#first-number").append(($(this).attr("value")));  
           $("#first-number").attr("data-point",i);  
           $("#first-number").attr("data-firstval",firstval);  
@@ -107,15 +106,13 @@ $(document).ready(function() {
       //display the operator
       $(("#button-plus, #button-minus, #button-multiply, #button-divide, #button-power")).on("click", function() {  
         first = ($("#first-number").data()).point;
-        console.log("first "+first);  
-        var test = parseInt(($("#first-number").data()).firstval);
-        console.log("test2 "+test);
-        console.log(($("#first-number").data()));
         if (first===10){
           $("#operator").append((operatorsign[(operatorName.indexOf(($(this).attr("value"))))])); 
           $("#operator").attr("data-point",999);  
           $("#operator").attr("data-opval",(operatorsign[(operatorName.indexOf(($(this).attr("value"))))]));  
-        } 
+        }else{
+          location.reload();
+        }
         //display the second number
         opr = ($("#operator").data()).point;
         if (opr===999){
@@ -135,16 +132,12 @@ $(document).ready(function() {
         //perform calculations
       $(("#button-equal")).on("click", function() {    
         second = ($("#second-number").data()).point;
-        console.log("second",second);
         if (second===10){  
           $(("#button-0, #button-1, #button-2, #button-3, #button-4, #button-5,#button-6, #button-7, #button-8, #button-9")).off("click");
         
           number1 = parseInt(($("#first-number").data()).firstval);
-          console.log("number1",number1);
           operation=($("#operator").data()).opval;  
-          console.log("operation",operation); 
           number2 = parseInt(($("#second-number").data()).secondval);
-          console.log("number2",number2);
           
           if(operation==="+"){
             result=number1+number2;
