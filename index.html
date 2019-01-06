@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Calculator</title>
+
+    <!-- Added link to the jQuery Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Added a link to Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<!-- Jumbotron for Title -->
+<div class="jumbotron">
+    <h1 class="text-center">jQuery Calculator</h1>
+    <h3 class="text-center">Perform basic mathematic operations using the power of jQuery!</h3>
+</div>
+
+<div class="container">
+
+    <div class="row">
+
+      <!-- Calculator Card -->
+      <div class="col-lg-4">
+        <div class="card">
+          <h3 class="card-header">Calculator</h3>
+
+          <div class="card-body">
+            <button id="button-1" class="btn btn-primary number" value="1"><h1>1</h1></button>
+            <button id="button-2" class="btn btn-primary number" value="2"><h1>2</h1></button>
+            <button id="button-3" class="btn btn-primary number" value="3"><h1>3</h1></button>
+            <button id="button-plus" class="btn btn-danger operator" value="plus"><h1>+</h1></button>
+            <br><br>
+            <button id="button-4" class="btn btn-primary number" value="4"><h1>4</h1></button>
+            <button id="button-5" class="btn btn-primary number" value="5"><h1>5</h1></button>
+            <button id="button-6" class="btn btn-primary number" value="6"><h1>6</h1></button>
+            <button id="button-minus" class="btn btn-danger operator" value="minus"><h1>&minus;</h1></button>
+            <br><br>
+            <button id="button-7" class="btn btn-primary number" value="7"><h1>7</h1></button>
+            <button id="button-8" class="btn btn-primary number" value="8"><h1>8</h1></button>
+            <button id="button-9" class="btn btn-primary number" value="9"><h1>9</h1></button>
+            <button id="button-multiply" class="btn btn-danger operator" value="times"><h1>&times;</h1></button>
+            <br><br>
+            <button id="button-0" class="btn btn-primary number" value="0"><h1>0</h1></button>
+            <button id="button-divide" class="btn btn-danger operator" value="divide"><h1>&divide;</h1></button>
+            <button id="button-power" class="btn btn-danger operator" value="power"><h1>^</h1></button>
+            <button id="button-equal" class="btn btn-success equal" value="equals"><h1>=</h1></button>
+            <br><br>
+            <button id="button-clear" class="btn btn-dark clear" value="clear"><h1>clear</h1></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Card -->
+      <div class="col-lg-6">
+        <div class="card">
+          <h3 class="card-header">Result</h3>
+          <div class="card-body">
+            <h1 id="first-number"></h1>
+            <h1 id="operator"></h1>
+            <h1 id="second-number"></h1>
+            <hr>
+            <h1 id="result"></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  var operatorName =["divide","power","plus","minus","times","equals"];
+  var operatorsign =["/","^","+","-","*","="];
+  var firstval;
+  var secondval;
+  var opval;
+  var number1;var number2;var operation;  
+  var first;var opr;var second;
+  function reset(){
+    
+    $("#first-number, #second-number, #operator, #result").empty();
+    number1="";number2="";operation="";  firstval="";secondval="";
+    first="";opr="";second="";
+    calculator();
+  }
+  reset();
+  function calculator(){
+
+      // Your code here...
+      
+      //display the first number
+      for (var i=0;i<10;i++){
+        $(("#button-"+i)).on("click", function() { 
+          firstval=firstval+$(this).attr("value");
+          console.log("test1 "+firstval);
+          $("#first-number").append(($(this).attr("value")));  
+          $("#first-number").attr("data-point",i);  
+          $("#first-number").attr("data-firstval",firstval);  
+          
+        });   
+      }
+      //display the operator
+      $(("#button-plus, #button-minus, #button-multiply, #button-divide, #button-power")).on("click", function() {  
+        first = ($("#first-number").data()).point;
+        console.log("first "+first);  
+        var test = parseInt(($("#first-number").data()).firstval);
+        console.log("test2 "+test);
+        console.log(($("#first-number").data()));
+        if (first===10){
+          $("#operator").append((operatorsign[(operatorName.indexOf(($(this).attr("value"))))])); 
+          $("#operator").attr("data-point",999);  
+          $("#operator").attr("data-opval",(operatorsign[(operatorName.indexOf(($(this).attr("value"))))]));  
+        } 
+        //display the second number
+        opr = ($("#operator").data()).point;
+        if (opr===999){
+          $(("#button-0, #button-1, #button-2, #button-3, #button-4, #button-5,#button-6, #button-7, #button-8, #button-9")).off("click");
+          $(("#button-plus, #button-minus, #button-multiply, #button-divide, #button-power")).off("click");
+          for (var i=0;i<10;i++){
+            $(("#button-"+i)).on("click", function() { 
+                secondval=secondval+$(this).attr("value");
+                $("#second-number").append(($(this).attr("value")));  
+                $("#second-number").attr("data-point",i);  
+                $("#second-number").attr("data-secondval",secondval);  
+            });   
+          }    
+        }  
+      }); 
+
+        //perform calculations
+      $(("#button-equal")).on("click", function() {    
+        second = ($("#second-number").data()).point;
+        console.log("second",second);
+        if (second===10){  
+          $(("#button-0, #button-1, #button-2, #button-3, #button-4, #button-5,#button-6, #button-7, #button-8, #button-9")).off("click");
+        
+          number1 = parseInt(($("#first-number").data()).firstval);
+          console.log("number1",number1);
+          operation=($("#operator").data()).opval;  
+          console.log("operation",operation); 
+          number2 = parseInt(($("#second-number").data()).secondval);
+          console.log("number2",number2);
+          
+          if(operation==="+"){
+            result=number1+number2;
+          }
+          if(operation==="-"){
+            result=number1-number2;
+          }
+          if(operation==="/"){
+            result=number1/number2;
+          }
+          if(operation==="*"){
+            result=number1*number2;
+          }
+          if(operation==="^"){
+            result=Math.pow(number1, number2);
+          }
+
+          $("#result").html("= <br>"+result);  
+            
+        }
+      });
+    
+      
+    $(("#button-clear")).on("click", function() {
+      $(("#button-equal")).off("click");
+      $("#first-number, #second-number, #operator, #result").empty();
+      location.reload();
+      reset();
+    });
+  }
+  
+
+});
+
+</script>
+
+</body>
+</html>
