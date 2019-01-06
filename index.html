@@ -103,6 +103,12 @@ $(document).ready(function() {
           
         });   
       }
+      //exception if = is clicked before numbers
+      $(("#button-equal")).on("click", function() {  
+          if ((($("#first-number").data()).point)!==10){
+            location.reload();
+          }
+      });
       //display the operator
       $(("#button-plus, #button-minus, #button-multiply, #button-divide, #button-power")).on("click", function() {  
         first = ($("#first-number").data()).point;
@@ -113,6 +119,7 @@ $(document).ready(function() {
         }else{
           location.reload();
         }
+        
         //display the second number
         opr = ($("#operator").data()).point;
         if (opr===999){
